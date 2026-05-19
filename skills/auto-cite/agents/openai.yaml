@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto-Cite"
+  short_description: "Automatically annotate academic text with citations and references"
+  default_prompt: "Use $auto-cite to automatically add proper academic citations and a formatted reference list to my text."

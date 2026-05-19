@@ -1,0 +1,4 @@
+interface:
+  display_name: "Citation Analysis"
+  short_description: "Explore citation graphs, author networks, and get paper recommendations"
+  default_prompt: "Use $citation-analysis to trace citations, find related papers, explore research networks, or get reading recommendations."

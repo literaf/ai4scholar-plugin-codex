@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ai4scholar": {
+      "type": "sse",
+      "url": "https://mcp.ai4scholar.net/sse",
+      "headers": {
+        "Authorization": "Bearer <your-ai4scholar-api-key>"
+      }
+    }
+  }
+}

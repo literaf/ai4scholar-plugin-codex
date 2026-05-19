@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Search"
+  short_description: "Search academic papers across arXiv, PubMed, Semantic Scholar, bioRxiv, medRxiv, and Google Scholar"
+  default_prompt: "Use $paper-search to find academic papers by keyword, topic, author, or year range across multiple platforms."

@@ -1,0 +1,20 @@
+{
+  "name": "ai4scholar-plugins",
+  "interface": {
+    "displayName": "AI4Scholar Plugins"
+  },
+  "plugins": [
+    {
+      "name": "ai4scholar",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "INSTALLED_BY_DEFAULT",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    }
+  ]
+}

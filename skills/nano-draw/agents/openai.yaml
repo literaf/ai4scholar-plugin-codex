@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nano Draw"
+  short_description: "AI-powered scientific figure generation, editing, and style transfer"
+  default_prompt: "Use $nano-draw to generate, edit, or style-transfer scientific figures and diagrams for research."

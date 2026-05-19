@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Reading"
+  short_description: "Download and read full-text academic papers for summarization and analysis"
+  default_prompt: "Use $paper-reading to download, extract, and summarize the full text of a specific academic paper."

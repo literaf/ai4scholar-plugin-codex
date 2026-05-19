@@ -1,0 +1,51 @@
+{
+  "name": "ai4scholar",
+  "version": "0.4.2",
+  "description": "Academic paper search, download, analysis, auto-citation, and AI scientific figure generation across arXiv, PubMed, Semantic Scholar, bioRxiv, medRxiv, and Google Scholar.",
+  "author": {
+    "name": "AI4Scholar",
+    "url": "https://ai4scholar.net"
+  },
+  "homepage": "https://ai4scholar.net",
+  "repository": "https://github.com/literaf/ai4s-mcp",
+  "license": "MIT",
+  "keywords": [
+    "academic",
+    "paper",
+    "research",
+    "arxiv",
+    "pubmed",
+    "semantic-scholar",
+    "biorxiv",
+    "medrxiv",
+    "citation",
+    "pdf",
+    "science",
+    "nano-draw"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "AI4Scholar",
+    "shortDescription": "Search, read, and analyze academic papers with AI.",
+    "longDescription": "AI4Scholar provides 28 tools for academic research: search papers across arXiv, PubMed, Semantic Scholar, bioRxiv, medRxiv, and Google Scholar; download and extract full-text PDFs; explore citation graphs and author networks; get paper recommendations; automatically annotate text with citations; and generate or edit scientific figures with AI. Supports both local mode (full features including PDF download) and remote SSE mode (search and text extraction via API key).",
+    "developerName": "AI4Scholar",
+    "category": "Research",
+    "capabilities": [
+      "Read",
+      "Analyze"
+    ],
+    "websiteURL": "https://ai4scholar.net",
+    "privacyPolicyURL": "https://github.com/literaf/ai4s-mcp/blob/main/LICENSE",
+    "termsOfServiceURL": "https://github.com/literaf/ai4s-mcp/blob/main/LICENSE",
+    "defaultPrompt": [
+      "Search for recent papers on transformer architectures.",
+      "Read and summarize this arXiv paper: 2301.00001.",
+      "Find papers that cite this DOI and analyze the citation network.",
+      "Auto-cite my draft paragraph with IEEE-style references.",
+      "Generate a scientific diagram of a neural network architecture."
+    ],
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}
