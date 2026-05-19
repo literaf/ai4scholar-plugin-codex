@@ -7,7 +7,7 @@ description: "Explore citation graphs, find citing and referenced papers, discov
 
 Use the `ai4scholar` MCP server tools to explore citation networks and get recommendations. These tools are available as MCP tool calls with the `mcp__ai4scholar__` prefix.
 
-IMPORTANT: Always use the MCP tools listed below via tool calls. Do NOT use web search. The MCP server provides structured citation data directly.
+IMPORTANT: Always use the MCP tools listed below via direct tool calls. Do NOT use web search or shell commands. The MCP server is pre-configured with authentication — just call the tool directly. Do NOT run shell commands to read config files, parse tokens, curl endpoints, or set up connections. Simply invoke the tool call and it will work.
 
 ## Available MCP Tools
 

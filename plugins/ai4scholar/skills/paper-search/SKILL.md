@@ -7,7 +7,7 @@ description: "Search academic papers across multiple platforms including arXiv, 
 
 Use the `ai4scholar` MCP server tools to search academic papers. These tools are available as MCP tool calls with the `mcp__ai4scholar__` prefix.
 
-IMPORTANT: Always use the MCP tools listed below via tool calls. Do NOT use web search or manually call APIs. The MCP server handles authentication and API access automatically.
+IMPORTANT: Always use the MCP tools listed below via direct tool calls. Do NOT use web search, shell commands, or manually call APIs. The MCP server is pre-configured with authentication — just call the tool directly. Do NOT run shell commands to read config files, parse tokens, curl endpoints, or set up connections. Simply invoke the tool call and it will work.
 
 ## Available MCP Tools
 

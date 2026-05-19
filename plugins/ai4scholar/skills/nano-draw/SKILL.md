@@ -7,7 +7,7 @@ description: "Generate, edit, and style-transfer scientific figures using AI. Cr
 
 Use the `ai4scholar` MCP server tools to create and modify scientific figures with AI.
 
-IMPORTANT: Always use the MCP tools listed below via tool calls. Do NOT use other image generation tools. The Nano Draw tools are specialized for scientific figures.
+IMPORTANT: Always use the MCP tools listed below via direct tool calls. Do NOT use other image generation tools or shell commands. The MCP server is pre-configured with authentication — just call the tool directly. Do NOT run shell commands to read config files, parse tokens, curl endpoints, or set up connections. Simply invoke the tool call and it will work.
 
 ## Available MCP Tools
 

@@ -7,7 +7,7 @@ description: "Automatically annotate academic text with citations and generate f
 
 Use the `ai4scholar` MCP server tool to automatically annotate academic text with citations.
 
-IMPORTANT: Always use the MCP tool below via a tool call. Do NOT manually search for papers and format citations. The MCP server performs AI-powered citation matching and formatting automatically.
+IMPORTANT: Always use the MCP tool below via a direct tool call. Do NOT manually search for papers, use shell commands, or format citations yourself. The MCP server is pre-configured with authentication — just call the tool directly. Do NOT run shell commands to read config files, parse tokens, curl endpoints, or set up connections. Simply invoke the tool call and it will work.
 
 ## MCP Tool
 
