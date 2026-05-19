@@ -27,73 +27,48 @@
 ### 前提条件
 
 - 一个 AI4Scholar API 密钥，前往 [ai4scholar.net](https://ai4scholar.net) 获取
-- **默认 SSE 模式无需安装任何 Python 包**
+- **无需安装 Python** —— 插件直接连接托管的 SSE 服务器
 
 ### 在 Codex 中安装
 
-**方式一：本地插件（推荐）**
-
-克隆此仓库，注册为 Codex 本地插件：
+**第 1 步：克隆插件**
 
 ```bash
-git clone https://github.com/literaf/ai4scholar-plugin-codex.git
+git clone https://github.com/literaf/ai4scholar-plugin-codex.git ~/.codex/plugins/ai4scholar-plugin-codex
 ```
 
-编辑 `.mcp.json`，将 `<your-ai4scholar-api-key>` 替换为你的实际 API 密钥。
+**第 2 步：在 `~/.codex/config.toml` 中注册 marketplace**
 
-创建或编辑 `~/.agents/plugins/marketplace.json`：
+在你的 Codex 配置文件中添加：
 
-```json
-{
-  "name": "local-plugins",
-  "plugins": [
-    {
-      "name": "ai4scholar",
-      "source": {
-        "source": "local",
-        "path": "/path/to/ai4scholar-plugin-codex"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Research"
-    }
-  ]
-}
+```toml
+[marketplaces.ai4scholar-local]
+source_type = "local"
+source = "~/.codex/plugins/ai4scholar-plugin-codex"
+
+[plugins."ai4scholar@ai4scholar-local"]
+enabled = true
+
+[plugins."ai4scholar@ai4scholar-local".mcp_servers.ai4scholar]
+enabled = true
 ```
 
-重启 Codex，在插件目录中安装即可。
+**第 3 步：配置 API 密钥**
 
-**方式二：仓库级插件**
+在 `~/.codex/config.toml` 中添加 MCP 服务器配置：
 
-将插件复制到你的项目中：
+```toml
+[mcp_servers.ai4scholar]
+enabled = true
+url = "https://mcp.ai4scholar.net/sse"
 
-```bash
-cp -R /path/to/ai4scholar-plugin-codex ./plugins/ai4scholar
+[mcp_servers.ai4scholar.http_headers]
+Authorization = "Bearer <your-ai4scholar-api-key>"
 ```
 
-添加到 `$REPO_ROOT/.agents/plugins/marketplace.json`：
+**第 4 步：重启 Codex**
 
-```json
-{
-  "name": "repo-plugins",
-  "plugins": [
-    {
-      "name": "ai4scholar",
-      "source": {
-        "source": "local",
-        "path": "./plugins/ai4scholar"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Research"
-    }
-  ]
-}
-```
+插件会出现在 `/plugins` 中。你可以用 `@ai4scholar` 或直接描述任务来使用。
 
 ### 在 Claude Code 中安装
 
@@ -109,8 +84,6 @@ claude mcp add ai4scholar --transport sse --url https://mcp.ai4scholar.net/sse -
 pip install ai4scholar-mcp
 claude mcp add ai4scholar -- python -m ai4scholar_mcp.server
 ```
-
-或使用 `.claude-plugin/plugin.json` 配置。
 
 ---
 

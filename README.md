@@ -27,73 +27,48 @@ Powered by [ai4scholar-mcp](https://github.com/literaf/ai4s-mcp) — 28 tools ac
 ### Prerequisites
 
 - An AI4Scholar API key from [ai4scholar.net](https://ai4scholar.net)
-- **No Python installation required** for the default SSE mode
+- **No Python installation required** — the plugin connects to the hosted SSE server
 
 ### Install in Codex
 
-**Method 1: Local Plugin (Recommended)**
-
-Clone this repository and register it as a local Codex plugin:
+**Step 1: Clone the plugin**
 
 ```bash
-git clone https://github.com/literaf/ai4scholar-plugin-codex.git
+git clone https://github.com/literaf/ai4scholar-plugin-codex.git ~/.codex/plugins/ai4scholar-plugin-codex
 ```
 
-Edit `.mcp.json` and replace `<your-ai4scholar-api-key>` with your actual API key.
+**Step 2: Register the marketplace in `~/.codex/config.toml`**
 
-Then add it to your Codex marketplace. Create or edit `~/.agents/plugins/marketplace.json`:
+Add the following to your Codex config file:
 
-```json
-{
-  "name": "local-plugins",
-  "plugins": [
-    {
-      "name": "ai4scholar",
-      "source": {
-        "source": "local",
-        "path": "/path/to/ai4scholar-plugin-codex"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Research"
-    }
-  ]
-}
+```toml
+[marketplaces.ai4scholar-local]
+source_type = "local"
+source = "~/.codex/plugins/ai4scholar-plugin-codex"
+
+[plugins."ai4scholar@ai4scholar-local"]
+enabled = true
+
+[plugins."ai4scholar@ai4scholar-local".mcp_servers.ai4scholar]
+enabled = true
 ```
 
-Restart Codex, then install the plugin from the plugin directory.
+**Step 3: Configure your API key**
 
-**Method 2: Repo-scoped Plugin**
+Add the MCP server config with your API key to `~/.codex/config.toml`:
 
-Copy this plugin into your project:
+```toml
+[mcp_servers.ai4scholar]
+enabled = true
+url = "https://mcp.ai4scholar.net/sse"
 
-```bash
-cp -R /path/to/ai4scholar-plugin-codex ./plugins/ai4scholar
+[mcp_servers.ai4scholar.http_headers]
+Authorization = "Bearer <your-ai4scholar-api-key>"
 ```
 
-Add to `$REPO_ROOT/.agents/plugins/marketplace.json`:
+**Step 4: Restart Codex**
 
-```json
-{
-  "name": "repo-plugins",
-  "plugins": [
-    {
-      "name": "ai4scholar",
-      "source": {
-        "source": "local",
-        "path": "./plugins/ai4scholar"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Research"
-    }
-  ]
-}
-```
+The plugin should now appear in `/plugins`. You can use `@ai4scholar` or describe your task directly.
 
 ### Install in Claude Code
 
@@ -109,8 +84,6 @@ claude mcp add ai4scholar --transport sse --url https://mcp.ai4scholar.net/sse -
 pip install ai4scholar-mcp
 claude mcp add ai4scholar -- python -m ai4scholar_mcp.server
 ```
-
-Or copy the `.claude-plugin/plugin.json` to your Claude Code plugin directory.
 
 ---
 

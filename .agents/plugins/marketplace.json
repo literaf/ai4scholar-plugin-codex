@@ -8,7 +8,7 @@
       "name": "ai4scholar",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/ai4scholar"
       },
       "policy": {
         "installation": "INSTALLED_BY_DEFAULT",
