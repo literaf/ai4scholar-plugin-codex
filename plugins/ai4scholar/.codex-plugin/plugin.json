@@ -23,7 +23,6 @@
     "science",
     "nano-draw"
   ],
-  "icon": "./assets/logo.svg",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
@@ -47,6 +46,8 @@
       "Generate a scientific diagram of a neural network architecture."
     ],
     "brandColor": "#2563EB",
+    "composerIcon": "./assets/app-icon.png",
+    "logo": "./assets/app-icon.png",
     "screenshots": []
   }
 }
