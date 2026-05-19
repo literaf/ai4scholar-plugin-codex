@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="plugins/ai4scholar/assets/logo.svg" width="120" alt="AI4Scholar Logo">
+</p>
+
 # AI4Scholar Codex Plugin
 
 **English** | [中文](README_CN.md)
