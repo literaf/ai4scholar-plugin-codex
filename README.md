@@ -6,7 +6,53 @@ A Codex plugin that brings academic paper search, reading, citation analysis, au
 
 Powered by [ai4scholar-mcp](https://github.com/literaf/ai4s-mcp) — 28 tools across arXiv, PubMed, Semantic Scholar, bioRxiv, medRxiv, and Google Scholar.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+---
+
+## Quick Start (3 Steps)
+
+### Prerequisites
+
+- An AI4Scholar API key from [ai4scholar.net](https://ai4scholar.net)
+- No Python installation required — the plugin connects to the hosted remote server
+
+### Step 1: Add Marketplace
+
+In Codex, add the plugin marketplace. You can either:
+
+- Use the Codex UI: Settings → Plugins → Add Marketplace → paste `https://github.com/literaf/ai4scholar-plugin-codex.git`
+- Or manually add to `~/.codex/config.toml`:
+
+```toml
+[marketplaces.ai4scholar-plugins]
+source_type = "git"
+source = "https://github.com/literaf/ai4scholar-plugin-codex.git"
+```
+
+### Step 2: Enable the Plugin
+
+Enable it via Codex UI (Settings → Plugins → AI4Scholar → Enable), or add to `~/.codex/config.toml`:
+
+```toml
+[plugins."ai4scholar@ai4scholar-plugins"]
+enabled = true
+```
+
+### Step 3: Configure Your API Key
+
+Add your API key to `~/.codex/config.toml`:
+
+```toml
+[plugins."ai4scholar@ai4scholar-plugins".mcp_servers.ai4scholar]
+enabled = true
+default_tools_approval_mode = "auto"
+
+[plugins."ai4scholar@ai4scholar-plugins".mcp_servers.ai4scholar.env]
+AI4SCHOLAR_API_KEY = "sk-user-your-api-key-here"
+```
+
+Then restart Codex. The plugin will appear in `/plugins` and you can use `@ai4scholar` to invoke it.
 
 ---
 
@@ -19,122 +65,6 @@ Powered by [ai4scholar-mcp](https://github.com/literaf/ai4s-mcp) — 28 tools ac
 | **citation-analysis** | Explore citation graphs, author networks, and get recommendations |
 | **auto-cite** | Automatically annotate academic text with citations and references |
 | **nano-draw** | Generate, edit, and vectorize scientific figures with AI |
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- An AI4Scholar API key from [ai4scholar.net](https://ai4scholar.net)
-- **No Python installation required** — the plugin connects to the hosted SSE server
-
-### Install in Codex
-
-**Step 1: Clone the plugin**
-
-```bash
-git clone https://github.com/literaf/ai4scholar-plugin-codex.git ~/.codex/plugins/ai4scholar-plugin-codex
-```
-
-**Step 2: Register the marketplace in `~/.codex/config.toml`**
-
-Add the following to your Codex config file:
-
-```toml
-[marketplaces.ai4scholar-local]
-source_type = "local"
-source = "~/.codex/plugins/ai4scholar-plugin-codex"
-
-[plugins."ai4scholar@ai4scholar-local"]
-enabled = true
-
-[plugins."ai4scholar@ai4scholar-local".mcp_servers.ai4scholar]
-enabled = true
-```
-
-**Step 3: Configure your API key**
-
-Add the MCP server config with your API key to `~/.codex/config.toml`:
-
-```toml
-[mcp_servers.ai4scholar]
-enabled = true
-url = "https://mcp.ai4scholar.net/sse"
-
-[mcp_servers.ai4scholar.http_headers]
-Authorization = "Bearer <your-ai4scholar-api-key>"
-```
-
-**Step 4: Restart Codex**
-
-The plugin should now appear in `/plugins`. You can use `@ai4scholar` or describe your task directly.
-
-### Install in Claude Code
-
-**SSE mode (no installation):**
-
-```bash
-claude mcp add ai4scholar --transport sse --url https://mcp.ai4scholar.net/sse --header "Authorization: Bearer <your-api-key>"
-```
-
-**Local mode (requires pip install):**
-
-```bash
-pip install ai4scholar-mcp
-claude mcp add ai4scholar -- python -m ai4scholar_mcp.server
-```
-
----
-
-## Configuration
-
-### Default: Remote SSE Mode (Zero Installation)
-
-The plugin uses the hosted SSE server by default. Just edit `.mcp.json` and replace `<your-ai4scholar-api-key>` with your API key from [ai4scholar.net](https://ai4scholar.net):
-
-```json
-{
-  "mcpServers": {
-    "ai4scholar": {
-      "type": "sse",
-      "url": "https://mcp.ai4scholar.net/sse",
-      "headers": {
-        "Authorization": "Bearer <your-ai4scholar-api-key>"
-      }
-    }
-  }
-}
-```
-
-This works out of the box — no Python, no pip, no local setup needed.
-
-### Optional: Local Mode (Full Features)
-
-For PDF download support (especially useful on campus networks with institutional access), switch to local stdio mode:
-
-```bash
-pip install ai4scholar-mcp
-```
-
-Then edit `.mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "ai4scholar": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["-m", "ai4scholar_mcp.server"],
-      "env": {
-        "AI4SCHOLAR_API_KEY": "your-api-key"
-      }
-    }
-  }
-}
-```
-
-> **Note:** PDF download tools (`download_*`, `download_pdf_by_doi`) are only available in local/stdio mode. SSE mode supports search, text extraction, auto-cite, and nano-draw.
 
 ---
 
@@ -162,6 +92,14 @@ Read and summarize arXiv paper 2301.00001.
 What papers cite DOI:10.1038/s41586-024-07487-w?
 Auto-cite my introduction paragraph with IEEE references.
 Generate a diagram showing transformer architecture.
+```
+
+---
+
+## Also Works With Claude Code
+
+```bash
+claude mcp add ai4scholar --transport sse --url https://mcp.ai4scholar.net/sse --header "Authorization: Bearer <your-api-key>"
 ```
 
 ---

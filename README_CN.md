@@ -6,11 +6,57 @@
 
 基于 [ai4scholar-mcp](https://github.com/literaf/ai4s-mcp) —— 覆盖 arXiv、PubMed、Semantic Scholar、bioRxiv、medRxiv 和 Google Scholar 的 28 个工具。
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ---
 
-## Skills（技能）
+## 快速开始（3 步完成）
+
+### 前提条件
+
+- 一个 AI4Scholar API 密钥，前往 [ai4scholar.net](https://ai4scholar.net) 获取
+- **无需安装 Python** —— 插件直接连接远程托管服务器
+
+### 第 1 步：添加 Marketplace
+
+在 Codex 中添加插件市场。可以：
+
+- 通过 Codex UI：设置 → 插件 → 添加 Marketplace → 粘贴 `https://github.com/literaf/ai4scholar-plugin-codex.git`
+- 或手动编辑 `~/.codex/config.toml`：
+
+```toml
+[marketplaces.ai4scholar-plugins]
+source_type = "git"
+source = "https://github.com/literaf/ai4scholar-plugin-codex.git"
+```
+
+### 第 2 步：启用插件
+
+通过 Codex UI 启用（设置 → 插件 → AI4Scholar → 启用），或添加到 `~/.codex/config.toml`：
+
+```toml
+[plugins."ai4scholar@ai4scholar-plugins"]
+enabled = true
+```
+
+### 第 3 步：配置 API 密钥
+
+在 `~/.codex/config.toml` 中添加：
+
+```toml
+[plugins."ai4scholar@ai4scholar-plugins".mcp_servers.ai4scholar]
+enabled = true
+default_tools_approval_mode = "auto"
+
+[plugins."ai4scholar@ai4scholar-plugins".mcp_servers.ai4scholar.env]
+AI4SCHOLAR_API_KEY = "sk-user-你的密钥"
+```
+
+重启 Codex 即可。插件会出现在 `/plugins` 中，使用 `@ai4scholar` 调用。
+
+---
+
+## 技能
 
 | 技能 | 描述 |
 |------|------|
@@ -19,122 +65,6 @@
 | **citation-analysis** | 探索引用图谱、作者网络，获取论文推荐 |
 | **auto-cite** | 自动为学术文本标注引用和参考文献 |
 | **nano-draw** | AI 生成、编辑、矢量化科研图片 |
-
----
-
-## 快速开始
-
-### 前提条件
-
-- 一个 AI4Scholar API 密钥，前往 [ai4scholar.net](https://ai4scholar.net) 获取
-- **无需安装 Python** —— 插件直接连接托管的 SSE 服务器
-
-### 在 Codex 中安装
-
-**第 1 步：克隆插件**
-
-```bash
-git clone https://github.com/literaf/ai4scholar-plugin-codex.git ~/.codex/plugins/ai4scholar-plugin-codex
-```
-
-**第 2 步：在 `~/.codex/config.toml` 中注册 marketplace**
-
-在你的 Codex 配置文件中添加：
-
-```toml
-[marketplaces.ai4scholar-local]
-source_type = "local"
-source = "~/.codex/plugins/ai4scholar-plugin-codex"
-
-[plugins."ai4scholar@ai4scholar-local"]
-enabled = true
-
-[plugins."ai4scholar@ai4scholar-local".mcp_servers.ai4scholar]
-enabled = true
-```
-
-**第 3 步：配置 API 密钥**
-
-在 `~/.codex/config.toml` 中添加 MCP 服务器配置：
-
-```toml
-[mcp_servers.ai4scholar]
-enabled = true
-url = "https://mcp.ai4scholar.net/sse"
-
-[mcp_servers.ai4scholar.http_headers]
-Authorization = "Bearer <your-ai4scholar-api-key>"
-```
-
-**第 4 步：重启 Codex**
-
-插件会出现在 `/plugins` 中。你可以用 `@ai4scholar` 或直接描述任务来使用。
-
-### 在 Claude Code 中安装
-
-**SSE 模式（无需安装）：**
-
-```bash
-claude mcp add ai4scholar --transport sse --url https://mcp.ai4scholar.net/sse --header "Authorization: Bearer <your-api-key>"
-```
-
-**本地模式（需要 pip install）：**
-
-```bash
-pip install ai4scholar-mcp
-claude mcp add ai4scholar -- python -m ai4scholar_mcp.server
-```
-
----
-
-## 配置
-
-### 默认：远程 SSE 模式（零安装）
-
-插件默认使用托管的 SSE 服务器。只需编辑 `.mcp.json`，将 `<your-ai4scholar-api-key>` 替换为你从 [ai4scholar.net](https://ai4scholar.net) 获取的 API 密钥：
-
-```json
-{
-  "mcpServers": {
-    "ai4scholar": {
-      "type": "sse",
-      "url": "https://mcp.ai4scholar.net/sse",
-      "headers": {
-        "Authorization": "Bearer <your-ai4scholar-api-key>"
-      }
-    }
-  }
-}
-```
-
-开箱即用——不需要 Python、不需要 pip、不需要任何本地配置。
-
-### 可选：本地模式（完整功能）
-
-如需 PDF 下载功能（在校园网环境下可利用机构权限下载付费论文），切换到本地 stdio 模式：
-
-```bash
-pip install ai4scholar-mcp
-```
-
-然后编辑 `.mcp.json`：
-
-```json
-{
-  "mcpServers": {
-    "ai4scholar": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["-m", "ai4scholar_mcp.server"],
-      "env": {
-        "AI4SCHOLAR_API_KEY": "your-api-key"
-      }
-    }
-  }
-}
-```
-
-> **注意：** PDF 下载工具（`download_*`、`download_pdf_by_doi`）仅在本地模式（stdio）下可用。SSE 模式支持搜索、文本提取、自动引用和科研绘图。
 
 ---
 
@@ -162,6 +92,14 @@ pip install ai4scholar-mcp
 哪些论文引用了 DOI:10.1038/s41586-024-07487-w？
 为我的引言段落自动添加 IEEE 格式引用。
 生成一个 Transformer 架构的示意图。
+```
+
+---
+
+## 也支持 Claude Code
+
+```bash
+claude mcp add ai4scholar --transport sse --url https://mcp.ai4scholar.net/sse --header "Authorization: Bearer <your-api-key>"
 ```
 
 ---

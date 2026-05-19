@@ -1,11 +1,8 @@
 {
   "mcpServers": {
     "ai4scholar": {
-      "command": "python",
-      "args": ["-m", "ai4scholar_mcp.server"],
-      "env": {
-        "AI4SCHOLAR_API_KEY": "<your-ai4scholar-api-key>"
-      }
+      "url": "https://mcp.ai4scholar.net/sse",
+      "bearer_token_env_var": "AI4SCHOLAR_API_KEY"
     }
   }
 }
