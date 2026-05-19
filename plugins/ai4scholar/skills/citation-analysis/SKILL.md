@@ -5,58 +5,42 @@ description: "Explore citation graphs, find citing and referenced papers, discov
 
 # Citation Analysis
 
-Use the bundled `ai4scholar` MCP tools to explore citation networks, author graphs, and get paper recommendations.
+Use the `ai4scholar` MCP server tools to explore citation networks and get recommendations. These tools are available as MCP tool calls with the `mcp__ai4scholar__` prefix.
 
-## Available Tools
+IMPORTANT: Always use the MCP tools listed below via tool calls. Do NOT use web search. The MCP server provides structured citation data directly.
 
-| Tool | Description |
-|------|-------------|
-| `get_semantic_citations` | Get all papers that cite a given paper |
-| `get_semantic_references` | Get all papers referenced by a given paper |
-| `get_semantic_recommendations` | Recommend papers based on positive/negative examples |
-| `get_semantic_recommendations_for_paper` | Recommend similar papers based on a single paper |
-| `get_semantic_author_papers` | Get all papers by a specific author |
-| `search_semantic_authors` | Find researchers by name |
-| `get_pubmed_citations` | Get citing papers from PubMed |
-| `get_pubmed_related` | Get related papers from PubMed |
+## Available MCP Tools
 
-## Workflow
+| MCP Tool Call | Description |
+|--------------|-------------|
+| `mcp__ai4scholar__get_semantic_citations` | Get papers that cite a given paper |
+| `mcp__ai4scholar__get_semantic_references` | Get papers referenced by a given paper |
+| `mcp__ai4scholar__get_semantic_recommendations` | Recommend papers based on positive/negative examples |
+| `mcp__ai4scholar__get_semantic_recommendations_for_paper` | Recommend similar papers from a single paper |
+| `mcp__ai4scholar__get_semantic_author_papers` | Get all papers by an author |
+| `mcp__ai4scholar__search_semantic_authors` | Find researchers by name |
+| `mcp__ai4scholar__get_pubmed_citations` | Get citing papers from PubMed |
+| `mcp__ai4scholar__get_pubmed_related` | Get related PubMed papers |
 
-### Citation Tracing
+## Tool Parameters
 
-1. Start with a seed paper (user provides ID, DOI, or title).
-2. Use `get_semantic_citations` to find papers that cite it (forward citations).
-3. Use `get_semantic_references` to find papers it cites (backward references).
-4. Identify key papers in the network by frequency of appearance.
+### mcp__ai4scholar__get_semantic_citations / get_semantic_references
+- `paper_id` (string, required): Paper ID (SHA, DOI:<doi>, ARXIV:<id>, PMID:<id>, etc.)
+- `limit` (int, optional): Max results, default 100, max 1000
+- `offset` (int, optional): Pagination offset, default 0
 
-### Literature Recommendations
+### mcp__ai4scholar__get_semantic_recommendations
+- `positive_paper_ids` (list of strings, required): Papers the user likes
+- `negative_paper_ids` (list of strings, optional): Papers to avoid
+- `limit` (int, optional): Max recommendations, default 100
 
-1. Collect a set of papers the user likes (positive examples).
-2. Optionally collect papers the user wants to avoid (negative examples).
-3. Use `get_semantic_recommendations` with both lists for personalized recommendations.
-4. Or use `get_semantic_recommendations_for_paper` for quick similar-paper discovery.
+### mcp__ai4scholar__get_semantic_recommendations_for_paper
+- `paper_id` (string, required): Paper identifier
+- `limit` (int, optional): Max recommendations, default 100
+- `pool` (string, optional): "recent" or "all-cs", default "recent"
 
-### Author Network
+## Examples
 
-1. Use `search_semantic_authors` to find an author by name.
-2. Use `get_semantic_author_papers` to get their publication list.
-3. Cross-reference with citations to build a collaboration map.
-
-## Parameters
-
-- `limit`: controls how many results to return (default 100, max 1000 for citations/references).
-- `offset`: for pagination through large result sets.
-- `pool`: for single-paper recommendations — `"recent"` (default) or `"all-cs"` (all CS papers).
-
-## Tips
-
-- Paper IDs for Semantic Scholar can be SHA, `DOI:<doi>`, `ARXIV:<id>`, `PMID:<id>`, etc.
-- Use `limit` and `offset` for pagination when exploring large citation networks.
-- Combine citation data with search to build comprehensive literature reviews.
-- Present citation analysis as structured summaries: key citing papers, research trends, and influential works.
-
-## Example Workflows
-
-- "What papers cite this work?" → `get_semantic_citations(paper_id="DOI:10.1038/...", limit=50)`
-- "Find me papers similar to this one" → `get_semantic_recommendations_for_paper(paper_id="ARXIV:2301.00001")`
-- "Build a reading list based on these 3 papers I like" → `get_semantic_recommendations(positive_paper_ids=[...])`
+- "What papers cite this?" → call `mcp__ai4scholar__get_semantic_citations` with `{"paper_id": "DOI:10.1038/...", "limit": 50}`
+- "Find similar papers" → call `mcp__ai4scholar__get_semantic_recommendations_for_paper` with `{"paper_id": "ARXIV:2301.00001"}`
+- "Build a reading list from these papers" → call `mcp__ai4scholar__get_semantic_recommendations` with `{"positive_paper_ids": [...]}`

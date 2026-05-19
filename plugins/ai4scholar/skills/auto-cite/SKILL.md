@@ -5,48 +5,32 @@ description: "Automatically annotate academic text with citations and generate f
 
 # Auto-Cite
 
-Use the `auto_cite` tool to automatically find and insert academic citations into text.
+Use the `ai4scholar` MCP server tool to automatically annotate academic text with citations.
 
-## Tool
+IMPORTANT: Always use the MCP tool below via a tool call. Do NOT manually search for papers and format citations. The MCP server performs AI-powered citation matching and formatting automatically.
 
-| Tool | Description |
-|------|-------------|
-| `auto_cite` | AI-powered citation annotation — identifies citation points, searches for matching papers, outputs annotated text with formatted references |
+## MCP Tool
 
-## Workflow
+| MCP Tool Call | Description |
+|--------------|-------------|
+| `mcp__ai4scholar__auto_cite` | AI-powered citation annotation with formatted references |
 
-1. Receive academic text from the user (100–10,000 characters).
-2. Choose mode:
-   - `auto`: AI identifies where citations are needed.
-   - `manual`: User marks positions with `[CITE]` or `[CITE:hint]` in their text.
-3. Configure citation style and filtering preferences.
-4. Call `auto_cite` and present the annotated text with reference list.
+## Tool Parameters
 
-## Parameters
+### mcp__ai4scholar__auto_cite
+- `text` (string, required): Academic text to annotate, 100-10000 characters
+- `mode` (string, optional): "auto" (AI finds citation points) or "manual" (user marks with [CITE]), default "auto"
+- `min_citations` (int, optional): Minimum citations in auto mode, default 10
+- `citation_style` (string, optional): ieee/apa/nature/vancouver/mla/chicago/harvard/acs/ama/acm/gbt7714, default "ieee"
+- `max_references` (int, optional): Max references to return
+- `preferred_venues` (list of strings, optional): Priority journals, e.g. ["Nature", "Science"]
+- `field` (string, optional): Research field, e.g. "computer science"
+- `year_preference` (int, optional): Prefer papers near this year
+- `exclude_preprints` (bool, optional): Exclude arXiv etc., default false
+- `exclude_conferences` (bool, optional): Exclude conference papers, default false
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `text` | Academic text to annotate (100–10,000 chars) | required |
-| `mode` | `"auto"` or `"manual"` | `"auto"` |
-| `min_citations` | Minimum number of citations in auto mode | 10 |
-| `citation_style` | Format: ieee/apa/nature/vancouver/mla/chicago/harvard/acs/ama/acm/gbt7714 | `"ieee"` |
-| `max_references` | Maximum references to return | none |
-| `preferred_venues` | Priority journals (e.g., `["Nature", "Science", "CVPR"]`) | none |
-| `field` | Research field (e.g., `"computer science"`) | none |
-| `year_preference` | Prefer papers near this year | none |
-| `exclude_preprints` | Exclude arXiv and other preprints | false |
-| `exclude_conferences` | Exclude conference papers | false |
+## Examples
 
-## Tips
-
-- For Chinese academic writing, use `citation_style="gbt7714"` (GB/T 7714 国标格式).
-- Set `field` to help the AI find more relevant citations for niche topics.
-- Use `preferred_venues` to bias towards top-tier venues in your field.
-- Use `year_preference` to prioritize recent or seminal (older) works.
-- In `manual` mode, `[CITE:transformer architecture]` gives the AI a hint about what to cite.
-
-## Example Workflows
-
-- "Add citations to my introduction paragraph" → `auto_cite(text="...", mode="auto", citation_style="ieee")`
-- "I marked citation spots with [CITE], fill them in" → `auto_cite(text="...[CITE]...", mode="manual")`
-- "Cite this in Nature style with recent ML papers" → `auto_cite(text="...", citation_style="nature", field="machine learning", year_preference=2024)`
+- "Add citations to my paragraph" → call `mcp__ai4scholar__auto_cite` with `{"text": "...", "mode": "auto", "citation_style": "ieee"}`
+- "Cite in Nature style" → call `mcp__ai4scholar__auto_cite` with `{"text": "...", "citation_style": "nature", "field": "machine learning"}`
+- "Fill in my [CITE] markers" → call `mcp__ai4scholar__auto_cite` with `{"text": "...[CITE]...", "mode": "manual"}`
