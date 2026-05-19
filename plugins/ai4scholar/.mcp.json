@@ -1,9 +1,10 @@
 {
   "mcpServers": {
     "ai4scholar": {
-      "url": "https://mcp.ai4scholar.net/sse",
-      "http_headers": {
-        "Authorization": "Bearer <your-ai4scholar-api-key>"
+      "command": "python",
+      "args": ["-m", "ai4scholar_mcp.server"],
+      "env": {
+        "AI4SCHOLAR_API_KEY": "<your-ai4scholar-api-key>"
       }
     }
   }
